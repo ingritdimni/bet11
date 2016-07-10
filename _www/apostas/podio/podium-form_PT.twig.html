@@ -1,0 +1,117 @@
+﻿<div class="bs-callout bs-callout-success">
+  <h4>Apostas Abertas</h4>
+  <strong>Atenção: </strong> as apostas no pódio são automaticamente encerradas às 21h00 do dia 08/06.<br>
+  Após encerradas, ficam disponíveis nesta página todas as apostas de todos os apostadores.
+</div>
+<br><br>
+
+<div class="row">
+	<div class="hidden-xs col-md-3"></div>
+	<div class="col-xs-12 col-md-6">
+
+		<form action="#" method="POST" onsubmit="submeter_apostas_podio(this);return false;">
+
+			
+			<div class="row">
+				<div class="col-xs-4 h4">1º Lugar</div>
+				<div class="col-xs-8">
+						<select name="first_team" class="form-control">
+							<option value="">&nbsp;</option>
+						{% for equipa in equipas %}	
+							<option value="{{equipa.id}}">{{equipa.Name}}</option>
+						{% endfor %}
+						</select>
+						
+						<small>Equipa que vence o europeu.</small>
+				</div>
+			</div>
+
+			<br><br>
+			<div class="row">
+				<div class="col-xs-4 h4">2º Lugar</div>
+				<div class="col-xs-8">
+						<select name="second_team" class="form-control">
+							<option value="">&nbsp;</option>
+						{% for equipa in equipas %}	
+							<option value="{{equipa.id}}">{{equipa.Name}}</option>
+						{% endfor %}
+						</select>
+						
+						<small>Equipa que perde na final do europeu.</small>
+				</div>
+			</div>
+
+			<br><br>
+			<div class="row">
+				<div class="col-xs-4 h4">3º Lugar</div>
+				<div class="col-xs-8">
+						<select name="third_team" class="form-control">
+							<option value="">&nbsp;</option>
+						{% for equipa in equipas %}	
+							<option value="{{equipa.id}}">{{equipa.Name}}</option>
+						{% endfor %}
+						</select>
+						
+						<small>Equipa que perde a meia-final.</small>
+				</div>
+			</div>
+
+			<br><br>
+			<div class="row">
+				<div class="col-xs-4 h4">3º Lugar</div>
+				<div class="col-xs-8">
+						<select name="fourth_team" class="form-control">
+							<option value="">&nbsp;</option>
+						{% for equipa in equipas %}	
+							<option value="{{equipa.id}}">{{equipa.Name}}</option>
+						{% endfor %}
+						</select>
+						
+						<small>Equipa que perde a meia-final.</small>
+				</div>
+			</div>
+
+
+			<br><br>			
+			<div class="row">
+				<div class="col-xs-4 h4">Melhor Marcador</div>
+				<div class="col-xs-8">
+						<input name="best_player" type="text" class="form-control" placeholder="Nome do jogador">						
+						<small>Jogador com mais golos marcados.</small>
+				</div>
+			</div>
+			
+			<br><br>			
+			<div class="row">
+				<div class="col-xs-4 h4"></div>
+				<div class="col-xs-8">
+						<button class="btn btn-primary btn-lg" >Apostar</button>
+
+				</div>
+			</div>
+			
+			<br><br><br>
+
+		</form>
+	</div>
+	<div class="hidden-xs col-md-3"></div>
+</div><!-- /.row -->
+<script>
+function submeter_apostas_podio(el)
+{
+	console.log(jQuery(el).serializeArray());
+	jQuery.ajax({
+		url		: window.pathname,
+		method  : 'POST',
+		data	: jQuery(el).serializeArray(),
+		success : function(){
+			alert("Aposta submetida!\n\nBoa sorte!");
+		},
+		error : function(){
+			alert("Ooops!! Alguma coisa não correu bem.\n\nPor favor tenta mais tarde.");
+		}
+	});
+	
+	return false;
+}
+</script>

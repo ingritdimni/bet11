@@ -1,0 +1,147 @@
+<div class="col-md-4 visible-md visible-lg">
+		<div class="bs-docs-sidenav" style="margin: 0 auto">
+			<ul class="nav nav-list bs-docs-sidenav">
+				
+				<% for n_date in uniq_dates %>
+				<li><a href="/apostas/jogos/#<%=n_date| replace({" ":"_"}) %>" target="_self">
+				<span class="glyphicon glyphicon-chevron-right pull-right"></span><%= n_date %></a></li>
+				<% endfor %>
+			</ul>
+		</div>
+	</div>
+
+		
+
+
+	<div class="col-md-8 col-sm-12 col-xs-12" >
+		<div class="panel-group" id="accordion_group">
+			
+		<div class="well text-center">
+			<a href="javascript:void(0)" onclick="show_previous_matches(this);">
+				<span class="glyphicon glyphicon-th"></span>
+				Ver todos os jogos</a>
+		</div>
+			
+
+{# --- Loop through all the matches #}
+
+<%			set jogo_dia_anterior = "" %>
+			
+<%					set flag_width = 40 %>
+<%					set flag_height = 30 %>
+
+
+<%			for jogo in jogos %>
+							
+
+<%					set home_team_x_pos = max(0,(jogo.home_team + 3 - 1) % 3 )*-flag_width %>
+<%					set home_team_y_pos = max(0,(jogo.home_team - 1 - ((jogo.home_team-1) % 3)) / 3 )*-flag_height %>
+					
+<%					set away_team_x_pos = max(0,(jogo.away_team + 3 - 1) % 3 )*-flag_width %>
+<%					set away_team_y_pos = max(0,(jogo.away_team - 1 - ((jogo.away_team - 1) % 3)) / 3 )*-flag_height %>
+			
+
+	
+		<% if jogo_dia_anterior == "" or jogo_dia_anterior != jogo.Day_of_match %>
+
+		<h4 class="<% if date(jogo.match_date_time) < date('-1day','Europe/Lisbon') %>hidden_match<% endif %>">
+			<span id="<%= jogo.Day_of_match | replace({" ":"_"}) %>"><%= jogo.Day_of_match %></span>
+		</h4>
+
+		<% endif %>
+		<% set jogo_dia_anterior = jogo.Day_of_match %>
+
+
+
+			<div class="panel panel-default <% if date(jogo.match_date_time) < date('-1day','Europe/Lisbon') %>hidden_match<% endif %>">
+				<div class="panel-body">
+					<h4><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_group" href="#accordion-<%= jogo.id %>"><small>(<%= jogo.Time_of_match %>) 
+						- <strong> <%=jogo.tournament_group%></strong> &nbsp;</small>
+						<span class="flag" style="background-position-x:<%= home_team_x_pos%>px;background-position-y:<%= home_team_y_pos %>px;" title=""></span> 
+						<%= equipas[jogo.home_team].Name %> x 
+						<span class="flag" style="background-position-x:<%= away_team_x_pos%>px;background-position-y:<%= away_team_y_pos %>px;" title=""></span> 
+						<%= equipas[jogo.away_team].Name %>
+						
+						<% if jogo.status == "bets_open" %>
+							<span class="label label-success pull-right">apostas abertas</span>
+
+						<% elseif jogo.status == "bets_closed" %>
+							<span class="label label-default pull-right">apostas fechadas</span>
+						
+						<% elseif jogo.status == "settled" %>
+							<span class="label label-info pull-right"><%= jogo.home_team_score %> - <%= jogo.away_team_score %></span>
+							
+						<% endif %>
+
+
+						</a>
+						</h4>
+						</div>
+						<div id="accordion-<%= jogo.id %>" class="panel-collapse collapse">
+							<div class="panel-body">
+								
+
+							{# --- APOSTAS ABERTAS #}							
+
+
+							<% if jogo.status == "bets_open" %>
+							
+								<% include 'match-bet-form.twig.html' %>
+	
+							<% endif %>
+
+
+
+							{# --- APOSTAS FECHADAS ou RESULTADO PUBLICADO #}
+							
+							<% if jogo.status == "bets_closed" or jogo.status == "settled" %>
+							
+								<% include 'list-of-users.twig.html' %>							
+
+							<% endif %>
+
+						</div><!-- /.panel-body -->
+						</div><!-- /.panel-collapse .collapse -->
+			</div><!-- /.panel-body -->
+
+		<% endfor %>
+	</div>
+</div><!-- ./row -->
+
+<script>
+
+	jogos = <%=jogos |json_encode() | raw%>;
+
+
+function submit_match_bet(obj)
+{
+	match_bet_data = $(obj).closest('form').serializeArray();
+	$.ajax({
+		url:'/apostas/jogos/',
+		method:'POST',
+		data:match_bet_data,
+		success:function(data){
+			alert("Aposta Submetida! \n\nBoa Sorte! :)");
+		},
+		error:function(error){
+			alert("Oops!! \n\nSomething went wrong.\nPlease try again later.");
+		%>)
+}
+function submit_match_result(obj)
+{
+	match_bet_data = $(obj).closest('form').serializeArray();
+	$.ajax({
+		url:'/apostas/jogos/?submit_result=1',
+		method:'POST',
+		data:match_bet_data,
+		success:function(data){
+			alert("Resultado submetido.");
+			window.location.reload();
+		},
+		error:function(error){
+			alert("Oops!! \n\nSomething went wrong.\nPlease try again later.");
+		%>)
+}
+
+
+</script>

@@ -1,0 +1,63 @@
+{#	
+	// 
+	// --- PRINT each user's photo
+	//
+#}
+<div style="text-align:center"><img src="home/banner_24_apostadores.png" width="60%"></div>
+{%	set row_no = 0 %}
+
+{% 	for entry in utilizadores %}
+	
+		{#	Create a new row every 4 images #}
+		{% if row_no % 3 == 0 %}
+		
+			{# close the previous row #}
+			{% if row_no > 0 %} 
+			</div>
+			{% endif %}
+		
+			<div class="row">
+		
+		{% endif %}
+		
+		{# photo's url and name #}
+
+ 		{% set photo_url = "_common/apostadores_images/group_"~ group_id ~ "/" ~ entry['id'] ~ ".png" %}
+		{% set photo_name = "User profile picture" %}
+		
+		
+
+			<div class="col-xs-12 col-md-4 text-center">
+
+
+			<table width="100%">
+			<tbody style="border: 0px;">
+			<tr>
+				<td colspan="2" style="border-bottom: 1px solid #BFBFBF;"><h4><span>{{entry.Name}}</span></h4></td>
+			</tr>	
+			<tr>
+				<td><span><img src="{{photo_url}}" title="{{photo_name}}"></span></td>
+				<td>
+					<em>Euro 2004: </em> 
+					{{edicoes_anteriores[entry['id']]['euro_2004']}}<br>
+					<em>Mundial 2006: </em>
+					{{edicoes_anteriores[entry['id']]['mundial_2006']}}<br>
+					<em>Euro 2012: </em>
+					{{edicoes_anteriores[entry['id']]['euro_2012']}}<br>
+					<em>Mundial 2014: </em>
+					{{edicoes_anteriores[entry['id']]['mundial_2014']}}<br>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+
+			</div>
+	
+
+
+		
+	{% set row_no = row_no + 1 %}
+	{%	endfor %}
+	
+
+	{% if row_no > 0 %}</div>{% endif %}

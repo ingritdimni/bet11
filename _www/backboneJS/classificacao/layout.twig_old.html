@@ -1,0 +1,47 @@
+{#	
+	// 
+	// --- PRINT each user's photo
+	//
+#}
+{%	set row_no = 1 %}
+
+<div class="tab-content text-left">
+	<div class="tab-pane active" id="accordion_group_1">
+
+{% 	for user in utilizadores %}
+	
+		{# photo's url and name #}
+
+ 		{% set photo_url = "/_common/apostadores_images/group_"~ user.Group_id ~ "/" ~ user.user_id ~ ".png" %}
+		{% set photo_name = user['Name'] ~ "'s photo" %}
+
+			<div class="panel panel-default">
+				
+				<div class="panel-body">
+					<h4><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_group_1" href="#accordion-{{row_no}}"> <span class="h2">{{row_no}}.</span>
+						<img  title="{{photo_name}}" src="{{photo_url}}"> {{user.Name}} 
+						<span class="badge pull-right">{{user.points}} pontos</span>
+					</a>
+				</h4></div>
+				
+				<div id="accordion-{{row_no}}" class="panel-collapse collapse">
+					<div class="panel-body">
+						<div class="row">
+
+						</div>
+					</div>
+				</div>
+
+		
+			</div>	
+
+
+	
+
+
+		
+	{% set row_no = row_no + 1 %}
+{%	endfor %}
+	
+	</div>
+</div>

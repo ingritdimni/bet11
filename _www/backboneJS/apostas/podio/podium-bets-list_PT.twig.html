@@ -1,0 +1,82 @@
+<br><br>
+{% set row_no = 0 %}
+
+
+
+{%					set flag_width = 20 %}
+{%					set flag_height = 15 %}
+
+{% for aposta in apostas %}
+
+
+{% if row_no == 0 or row_no % 4 == 0 %}
+	{% if row_no > 0  %} </div><!-- /.row -->{% endif %}
+<br><br>
+	<div class="row">
+{% endif %}
+							
+
+{%					set team_0_x_pos = max(0,(aposta.first_team + 3 - 1) % 3 )*-flag_width %}
+{%					set team_0_y_pos = max(0,(aposta.first_team - 1 - ((aposta.first_team-1) % 3)) / 3 )*-flag_height %}
+
+{%					set team_1_x_pos = max(0,(aposta.second_team + 3 - 1) % 3 )*-flag_width %}
+{%					set team_1_y_pos = max(0,(aposta.second_team - 1 - ((aposta.second_team-1) % 3)) / 3 )*-flag_height %}
+
+{%					set team_2_x_pos = max(0,(aposta.third_team + 3 - 1) % 3 )*-flag_width %}
+{%					set team_2_y_pos = max(0,(aposta.third_team - 1 - ((aposta.third_team-1) % 3)) / 3 )*-flag_height %}
+
+{%					set team_3_x_pos = max(0,(aposta.fourth_team + 3 - 1) % 3 )*-flag_width %}
+{%					set team_3_y_pos = max(0,(aposta.fourth_team - 1 - ((aposta.fourth_team-1) % 3)) / 3 )*-flag_height %}
+					
+
+
+
+	<div class="col-xs-12 col-md-3 text-center">
+		<table class="tabela-apostas-podio-melhor-marcador" style="margin:0 auto;">
+		<tbody>
+			<tr>
+				<td style="border-bottom: 1px solid #7F7F7F;">
+				<b>{{ utilizadores[aposta.user_id].Name }}</b>
+				</td>
+			</tr>
+	
+			<tr>
+				<td class="label-cell">1º</td>
+			</tr>
+			<tr>
+				<td><span class="flag flag-sm"  style="background-position-x:{{ team_0_x_pos}}px;background-position-y:{{ team_0_y_pos }}px;" title="{{equipas[aposta.first_team].Name}}"></span> {{equipas[aposta.first_team].Name}}</td>
+			</tr>
+			<tr>
+				<td class="label-cell">2º</td>
+			</tr>
+			<tr>
+				<td><span class="flag flag-sm"  style="background-position-x:{{ team_1_x_pos}}px;background-position-y:{{ team_1_y_pos }}px;" title="{{equipas[aposta.second_team].Name}}"></span> {{equipas[aposta.second_team].Name}}</td>
+			</tr>
+			<tr>
+				<td class="label-cell">3º</td>
+			</tr>
+			<tr>
+				<td><span class="flag flag-sm"  style="background-position-x:{{ team_2_x_pos}}px;background-position-y:{{ team_2_y_pos }}px;" title="{{equipas[aposta.third_team].Name}}"></span> {{equipas[aposta.third_team].Name}}</td>
+			</tr>
+			<tr>
+				<td class="label-cell">3º</td>
+			</tr>
+			<tr>
+				<td><span class="flag flag-sm"  style="background-position-x:{{ team_3_x_pos}}px;background-position-y:{{ team_3_y_pos }}px;" title="{{equipas[aposta.fourth_team].Name}}"></span> {{equipas[aposta.fourth_team].Name}}</td>
+			</tr>
+
+
+			<tr>
+				<td class="label-cell">MELHOR MARCADOR</td>
+			</tr>
+			<tr><td>{{aposta.best_player}}</td>
+			</tr>
+
+
+		</tbody>
+		</table>
+	</div>
+{% set row_no = row_no + 1 %}
+{% endfor %}
+
+</div><!-- /.row -->

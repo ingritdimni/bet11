@@ -1,0 +1,14 @@
+<html>
+
+<body>
+	<h3>Aposta não submetida para os jogos:</h3>
+
+	<h5>(falta menos de 1 hora para o fecho das apostas)</h5>
+
+	<ul>
+		{% for match in matches %}
+		<li>{{match.home_team_name}} - {{match.away_team_name}}</li>
+		{% endfor %}
+	</ul>
+</body>
+</html>

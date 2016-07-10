@@ -1,0 +1,9 @@
+Aqui estão os resultados das épocas anteriores
+<br><br>
+{% for file in files %}
+<h3>{{file.caption}}</h3>
+<a href="edicoes-anteriores/{{file.name}}">
+	<img src="edicoes-anteriores/{{file.name}}" class="img-thumbnail"></img>
+</a>
+<br><br>
+{% endfor %}

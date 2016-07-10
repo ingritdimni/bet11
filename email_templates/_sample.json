@@ -1,0 +1,6 @@
+{
+	"to":"fredericomfalcao@hotmail.com",
+	"from":"ENVMA Notificacoes <envma@balin.pt>",
+	"subject":"HELLO WORLD",
+	"data_sql_query":{"users":"SELECT * FROM users;"}
+}

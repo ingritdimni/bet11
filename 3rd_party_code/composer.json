@@ -1,0 +1,6 @@
+{
+    "require": {
+        "twig/twig":"~1.0",
+        "henck/rtf-to-html":"~1.0"
+    }
+}

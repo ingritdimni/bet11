@@ -1,0 +1,117 @@
+<div class="bs-callout bs-callout-success">
+  <h4>Bets are Open</h4>
+  <strong>Attention: </strong> the podium bets are automatically closed at 21.00 the day before the first match of the Euro Cup.<br>
+  After bets are closed, you can check all other players bets in this page.
+</div>
+<br><br>
+
+<div class="row">
+	<div class="hidden-xs col-md-3"></div>
+	<div class="col-xs-12 col-md-6">
+
+		<form action="#" method="POST" onsubmit="submeter_apostas_podio(this);return false;">
+
+			
+			<div class="row">
+				<div class="col-xs-4 h4">1st Place</div>
+				<div class="col-xs-8">
+						<select name="first_team" class="form-control">
+							<option value="">&nbsp;</option>
+						{% for equipa in equipas %}	
+							<option value="{{equipa.id}}">{{equipa.Name}}</option>
+						{% endfor %}
+						</select>
+						
+						<small>Team that wins the final in the Euro Cup.</small>
+				</div>
+			</div>
+
+			<br><br>
+			<div class="row">
+				<div class="col-xs-4 h4">2nd Place</div>
+				<div class="col-xs-8">
+						<select name="second_team" class="form-control">
+							<option value="">&nbsp;</option>
+						{% for equipa in equipas %}	
+							<option value="{{equipa.id}}">{{equipa.Name}}</option>
+						{% endfor %}
+						</select>
+						
+						<small>Team that looses the final in the Euro Cup.</small>
+				</div>
+			</div>
+
+			<br><br>
+			<div class="row">
+				<div class="col-xs-4 h4">3rd Place</div>
+				<div class="col-xs-8">
+						<select name="third_team" class="form-control">
+							<option value="">&nbsp;</option>
+						{% for equipa in equipas %}	
+							<option value="{{equipa.id}}">{{equipa.Name}}</option>
+						{% endfor %}
+						</select>
+						
+						<small>Team that looses the semi-final and wins the 3rd position.</small>
+				</div>
+			</div>
+
+			<br><br>
+			<div class="row">
+				<div class="col-xs-4 h4">4th Place</div>
+				<div class="col-xs-8">
+						<select name="fourth_team" class="form-control">
+							<option value="">&nbsp;</option>
+						{% for equipa in equipas %}	
+							<option value="{{equipa.id}}">{{equipa.Name}}</option>
+						{% endfor %}
+						</select>
+						
+						<small>Team that looses the semi-final and looses the 3rd / 4th match.</small>
+				</div>
+			</div>
+
+
+			<br><br>			
+			<div class="row">
+				<div class="col-xs-4 h4">Most Valuable Player</div>
+				<div class="col-xs-8">
+						<input name="best_player" type="text" class="form-control" placeholder="Name of the player">						
+						<small>Most valuable player in Euro CUP 2016 according to UEFA.</small>
+				</div>
+			</div>
+			
+			<br><br>			
+			<div class="row">
+				<div class="col-xs-4 h4"></div>
+				<div class="col-xs-8">
+						<button class="btn btn-primary btn-lg" >Place your Bet</button>
+
+				</div>
+			</div>
+			
+			<br><br><br>
+
+		</form>
+	</div>
+	<div class="hidden-xs col-md-3"></div>
+</div><!-- /.row -->
+<script>
+function submeter_apostas_podio(el)
+{
+	console.log(jQuery(el).serializeArray());
+	jQuery.ajax({
+		url		: window.pathname,
+		method  : 'POST',
+		data	: jQuery(el).serializeArray(),
+		success : function(){
+			alert("Bet submitted!\n\nBoa sorte!");
+		},
+		error : function(){
+			alert("Ooops!! Something went wrong.\n\nPlease try again later.");
+		}
+	});
+	
+	return false;
+}
+</script>

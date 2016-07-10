@@ -1,0 +1,32 @@
+<form method="POST" onsubmit="return false;">
+<table class="table">
+	<tbody>
+		<tr>
+			<td colspan="2"><b>Fecho das apostas:</b><br> <span style="color:#7F7F7F;">{{ jogo.closing_bets_date_time }}</span></td>
+		</tr>
+		<tr>
+			<td>
+				<select name="home_team_score" class="form-control">
+					{% for i in range(0,9) %}
+						<option value="{{i}}" {% if i == jogo.bet.home_team_score %} selected {% endif %}>{{i}} golo(s)</option>
+					{% endfor %}
+				</select>
+			</td><td>
+				<select name="away_team_score" class="form-control">
+					{% for i in range(0,9) %}
+						<option value="{{i}}" {% if i == jogo.bet.away_team_score %} selected {% endif %}>{{i}} golo(s)</option>
+					{% endfor %}
+				</select>
+			</td>
+		</tr>
+		<tr>									
+			<td colspan="2" style="text-align:center;">
+				<input type="hidden" name="match_id" value="{{jogo.id}}" />
+				<button class="btn btn-info"  onclick="submit_match_bet(this);" >
+					Apostar
+				</button>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</form>

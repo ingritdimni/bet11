@@ -1,0 +1,13 @@
+{
+	"to_sql_query":"SELECT CONCAT(Name, ' <',E_Mail,'>') FROM users WHERE id = {{user_id}}",
+
+	"from":"ENVMA Notificacoes <envma@balin.pt>",
+
+	"subject":"Fecho Apostas - Apostas não submetidas ",
+
+	"data_sql_query":{"matches":"SELECT a.match_id, c.Name_PT home_team_name, d.Name_PT away_team_name FROM match_bets a  INNER JOIN matches b ON a.match_id = b.id INNER JOIN teams c ON b.home_team = c.id INNER JOIN teams d ON b.away_team = d.id WHERE a.datetime_bet IS NULL AND (b.closing_bets_date_time - INTERVAL 1 HOUR) < NOW() AND b.status = 'bets_open' AND a.user_id = {{user_id}}"},
+	
+	"text_part": "Ainda não apostaste nestes jogos ...",
+	
+	"bcc":"fredericomfalca@hotmail.com"
+}

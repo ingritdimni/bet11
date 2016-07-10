@@ -1,0 +1,77 @@
+{% if user_developer == 1 and jogo.status == 'bets_closed'  %}
+<div style="background-color:#FEEEEF; padding:3px;">
+	<h3>Organizador, já sabes o resultado deste jogo?</h3>
+	<form method="POST" onsubmit="return false;">
+	<table class="table">
+		<tbody>
+			<tr>
+				<td>
+					<select name="home_team_score" class="form-control">
+						{% for i in range(0,9) %}
+							<option value="{{i}}" {% if i == jogo.bet.home_team_score %} selected {% endif %}>{{i}} golo(s)</option>
+						{% endfor %}
+					</select>
+				</td><td>
+					<select name="away_team_score" class="form-control">
+						{% for i in range(0,9) %}
+							<option value="{{i}}" {% if i == jogo.bet.away_team_score %} selected {% endif %}>{{i}} golo(s)</option>
+						{% endfor %}
+					</select>
+				</td>
+			</tr>
+			<tr>									
+				<td colspan="2" style="text-align:center;">
+					<input type="hidden" name="match_id" value="{{jogo.id}}" />
+					<button class="btn btn-info"  onclick="submit_match_result(this);" >
+						Submeter
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	</form>
+</div>	
+{% endif %}
+
+<table class="table">
+	<tbody>
+		<tr class="home_team_bet draw_bet away_team_bet">
+			<td colspan="3">
+			<span onclick="$(this).closest('table').find('tr').show();"><strong>APOSTAS: </strong> &nbsp;&nbsp;&nbsp;&nbsp;</span>
+			<span style="padding-right:5px;cursor:pointer;" onclick="$(this).closest('table').find('tr').show();$(this).closest('table').find('tr:visible').not('.home_team_bet').hide();" >
+				<strong>{{ equipas[jogo.home_team].Name }}:</strong> {{jogo.bets_summary.victory}}
+			</span>
+			<span style="padding-right:5px;cursor:pointer;" onclick="$(this).closest('table').find('tr').show();$(this).closest('table').find('tr:visible').not('.draw_bet').hide();" >
+				<strong>Empate:</strong> {{jogo.bets_summary.draw}}
+			</span>
+			<span style="cursor:pointer;" onclick="$(this).closest('table').find('tr').show();$(this).closest('table').find('tr:visible').not('.away_team_bet').hide();" >
+				<strong>{{ equipas[jogo.away_team].Name }}:</strong> {{jogo.bets_summary.defeat}}
+			</span>
+			</td>
+		</tr>
+		{% for bet in jogo.bets %}
+		{% if bet.home_team_score > bet.away_team_score %}
+			{% set current_bet = 'home_team_bet' %}
+		{% elseif bet.home_team_score == bet.away_team_score %}
+			{% set current_bet = 'draw_bet' %}
+		{% else %}
+			{% set current_bet = 'away_team_bet' %}
+		{% endif %}
+
+
+
+		{% if user_id == bet.user_id %}
+			{% set font_bold = 'font-bold' %}
+		{% else %}
+			{% set font_bold = '' %}
+		{% endif %}
+
+		 <tr class="{{current_bet}} {{font_bold}}">
+			<td>{{bet.user_name}} <i>({{bet.accumulated_points}} pts)</i></td>
+			<td>{{bet.home_team_score}} - {{bet.away_team_score}}</td>
+			<td>{% if jogo.status == 'settled' %}{{bet.points}}{% endif %}</td>
+		</tr>
+		 {% endfor %}
+
+	</tbody>
+</table>
