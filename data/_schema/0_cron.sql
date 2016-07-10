@@ -1,7 +1,7 @@
 ##
 ## [SQL TABLE] cron - scheduled jobs
 ##
-##############
+###############
 
 CREATE TABLE cron
 (
